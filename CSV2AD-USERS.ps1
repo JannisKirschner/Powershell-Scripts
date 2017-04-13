@@ -118,7 +118,7 @@ While($True){
 
         catch [System.Exception] {
         
-        if() # TODO Catchmessages compare
+        if() # TODO Catchmessages compare + silent continue
         
         }
 
