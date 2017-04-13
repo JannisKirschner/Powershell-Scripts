@@ -156,16 +156,17 @@ While($True){
         
 
        
-                
+        #Outputs a message in case of successful creation        
          Write-Host `n"****************************"
          Write-Host    "User(s) successfully created" -foreground green
          Write-Host    "****************************"
             break}
 
+    #Outputs a goodbye message and exits the script
     ElseIf($prompt -eq $cancel) {
                 Write-Host `n "Goodbye! Thanks for using my script!" -foreground yellow
                 break}
-
+    
     Else{
         Write-Host "Bad input!" -foreground red}
 }
