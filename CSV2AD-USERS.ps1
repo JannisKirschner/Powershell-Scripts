@@ -54,7 +54,7 @@ While($True){
     If($prompt -eq $proceed){
 
             #Inputs the domain name (with error handling)
-            #Please enter it <domain>.<top-level domain>
+            #Please enter it <domain>.<top-level domain> "testdomain.com"
             While($True){
             
                 $domain = Read-Host "Please enter (full) domain-name> "
