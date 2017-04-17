@@ -1,0 +1,161 @@
+Add-Type -AssemblyName System.Windows.Forms
+
+$Form = New-Object system.Windows.Forms.Form
+$Form.Text = "Form"
+$Form.BackColor = "#2a4c65"
+$Form.TopMost = $true
+$Form.Width = 380
+$Form.Height = 396
+
+$textBox3 = New-Object system.windows.Forms.TextBox
+$textBox3.Text = "Password"
+$textBox3.Width = 112
+$textBox3.Height = 20
+$textBox3.location = new-object system.drawing.point(18,213)
+$textBox3.Font = "Microsoft Sans Serif,10"
+$Form.controls.Add($textBox3)
+
+$textBox3 = New-Object system.windows.Forms.TextBox
+$textBox3.Text = "Password"
+$textBox3.Width = 112
+$textBox3.Height = 20
+$textBox3.location = new-object system.drawing.point(18,213)
+$textBox3.Font = "Microsoft Sans Serif,10"
+$Form.controls.Add($textBox3)
+
+$button5 = New-Object system.windows.Forms.Button
+$button5.BackColor = "#d3d3d3"
+$button5.Text = "Select File"
+$button5.Width = 60
+$button5.Height = 30
+$button5.location = new-object system.drawing.point(21,265)
+$button5.Font = "Microsoft Sans Serif,10"
+$Form.controls.Add($button5)
+
+$textBox6 = New-Object system.windows.Forms.TextBox
+$textBox6.Text = "OU"
+$textBox6.Width = 111
+$textBox6.Height = 20
+$textBox6.location = new-object system.drawing.point(18,183)
+$textBox6.Font = "Microsoft Sans Serif,10"
+$Form.controls.Add($textBox6)
+
+$textBox6 = New-Object system.windows.Forms.TextBox
+$textBox6.Text = "OU"
+$textBox6.Width = 111
+$textBox6.Height = 20
+$textBox6.location = new-object system.drawing.point(18,183)
+$textBox6.Font = "Microsoft Sans Serif,10"
+$Form.controls.Add($textBox6)
+
+$textBox8 = New-Object system.windows.Forms.TextBox
+$textBox8.Text = "Domain"
+$textBox8.Width = 112
+$textBox8.Height = 20
+$textBox8.location = new-object system.drawing.point(19,152)
+$textBox8.Font = "Microsoft Sans Serif,10"
+$Form.controls.Add($textBox8)
+
+$textBox8 = New-Object system.windows.Forms.TextBox
+$textBox8.Text = "Domain"
+$textBox8.Width = 112
+$textBox8.Height = 20
+$textBox8.location = new-object system.drawing.point(19,152)
+$textBox8.Font = "Microsoft Sans Serif,10"
+$Form.controls.Add($textBox8)
+
+$label10 = New-Object system.windows.Forms.Label
+$label10.Text = "Password Stuff"
+$label10.AutoSize = $true
+$label10.Width = 25
+$label10.Height = 10
+$label10.location = new-object system.drawing.point(16,239)
+$label10.Font = "Microsoft Sans Serif,10"
+$Form.controls.Add($label10)
+
+$label10 = New-Object system.windows.Forms.Label
+$label10.Text = "Password Stuff"
+$label10.AutoSize = $true
+$label10.Width = 25
+$label10.Height = 10
+$label10.location = new-object system.drawing.point(16,239)
+$label10.Font = "Microsoft Sans Serif,10"
+$Form.controls.Add($label10)
+
+$checkBox12 = New-Object system.windows.Forms.CheckBox
+$checkBox12.Text = "checkBox"
+$checkBox12.AutoSize = $true
+$checkBox12.Width = 95
+$checkBox12.Height = 20
+$checkBox12.location = new-object system.drawing.point(112,240)
+$checkBox12.Font = "Microsoft Sans Serif,10"
+$Form.controls.Add($checkBox12)
+
+$checkBox12 = New-Object system.windows.Forms.CheckBox
+$checkBox12.Text = "checkBox"
+$checkBox12.AutoSize = $true
+$checkBox12.Width = 95
+$checkBox12.Height = 20
+$checkBox12.location = new-object system.drawing.point(112,240)
+$checkBox12.Font = "Microsoft Sans Serif,10"
+$Form.controls.Add($checkBox12)
+
+$PictureBox16 = New-Object system.windows.Forms.PictureBox
+$PictureBox16.Width = 127
+$PictureBox16.ImageLocation = "C:\Users\Jannis\Downloads\ad.png"
+$PictureBox16.Height = 129
+$PictureBox16.BackColor = "#7f7f7f"
+$PictureBox16.Width = 127
+$PictureBox16.Height = 129
+$PictureBox16.location = new-object system.drawing.point(0,-1)
+$Form.controls.Add($PictureBox16)
+
+$PictureBox16 = New-Object system.windows.Forms.PictureBox
+$PictureBox16.Width = 127
+$PictureBox16.ImageLocation = "C:\Users\Jannis\Downloads\ad.png"
+$PictureBox16.Height = 129
+$PictureBox16.BackColor = "#7f7f7f"
+$PictureBox16.Width = 127
+$PictureBox16.Height = 129
+$PictureBox16.location = new-object system.drawing.point(0,-1)
+$Form.controls.Add($PictureBox16)
+
+$textBox19 = New-Object system.windows.Forms.TextBox
+$textBox19.Multiline = $true
+$textBox19.Width = 355
+$textBox19.Height = 46
+$textBox19.location = new-object system.drawing.point(3,306)
+$textBox19.Font = "Microsoft Sans Serif,10"
+$Form.controls.Add($textBox19)
+
+$textBox19 = New-Object system.windows.Forms.TextBox
+$textBox19.Multiline = $true
+$textBox19.Width = 355
+$textBox19.Height = 46
+$textBox19.location = new-object system.drawing.point(3,306)
+$textBox19.Font = "Microsoft Sans Serif,10"
+$Form.controls.Add($textBox19)
+
+$label21 = New-Object system.windows.Forms.Label
+$label21.Text = "AD-Massimport"
+$label21.AutoSize = $true
+$label21.ForeColor = "#ffffff"
+$label21.Width = 25
+$label21.Height = 10
+$label21.location = new-object system.drawing.point(139,16)
+$label21.Font = "Microsoft Sans Serif,19"
+$Form.controls.Add($label21)
+
+$label21 = New-Object system.windows.Forms.Label
+$label21.Text = "AD-Massimport"
+$label21.AutoSize = $true
+$label21.ForeColor = "#ffffff"
+$label21.Width = 25
+$label21.Height = 10
+$label21.location = new-object system.drawing.point(139,16)
+$label21.Font = "Microsoft Sans Serif,19"
+$Form.controls.Add($label21)
+
+[void]$Form.ShowDialog()
+$Form.Dispose()
+- See more at: https://poshgui.com/?#sthash.KPhsmLVa.dpuf
