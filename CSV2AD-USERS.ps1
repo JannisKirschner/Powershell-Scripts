@@ -200,7 +200,7 @@ While($True){
 
              ###### IF ADDITIONAL PARAMETERS ARE NEEDED:
              #     -ADD THE PARAMETER NAME TO THE CSV-FILE (FOR EXAMPLE "City")
-             #     -CREATE A NEW VARIABLE UPON THIS ^ (FOR EXAMPLE "$city = $user.city")
+             #     -CREATE A NEW VARIABLE UPON THIS ^ (FOR EXAMPLE "$city = $user.City")
              #     -SEARCH FOR THE CORRESPONDING COMMAND ON THE MS WEBSITE (FILE HEADER) AND
              ###### ADD IT TO THE New-ADUser COMMAND (New-ADUSer ... -City $city)
              
