@@ -1,9 +1,17 @@
-#Website to add params param array while has
-#copyright ascii art
+#More parameters can be found here: https://technet.microsoft.com/en-us/library/ee617253.aspx
+#Neat ASCII Art by http://patorjk.com/software/taag
 
 
 
-#Ascii Art
+#File name: CSV2AD-USRERS.ps1      #Author: Jannis Kirschner
+#Date Created: 13.04.2017          #Date Last Modified: 19.04.2017
+
+
+#Licence: GPL-3.0
+#Copyright: Copyright 2017, Jannis Kirschner
+
+
+
 $welcome = "      
                   ____ ______     ______     _    ____        _   _ ____  _____ ____  ____  
                  / ___/ ___\ \   / /___ \   / \  |  _ \      | | | / ___|| ____|  _ \/ ___| 
@@ -49,9 +57,25 @@ function manualDelimiter($delimiter) {
 }
 
 
-#Measures the size of both delimiter choices
+
+
+
+
 $filepath = getfilename("C:\\")
-$delimiterTest = Get-Content $filepath
+
+try {
+    
+    $delimiterTest = Get-Content $filepath 
+}
+
+catch {
+    
+    Write-Host "`nFailed to read path!" -foreground red `n
+    $Error[0].ToString()  
+    break
+}
+
+#Measures the size of both delimiter choices
 $semicolondelimiter = ($delimiterTest.toCharArray() |Where-Object {$_ -eq ';'} | Measure-Object).count
 $commadelimiter = ($delimiterTest.toCharArray() |Where-Object {$_ -eq ','} | Measure-Object).count
 
@@ -77,7 +101,7 @@ Write-Host "Your delimiter is:" $delimiter
 Write-Host "---------------------"
 
 #Imports the CSV-File
-$adparams = Import-CSV $filepath -delimiter $delimiter
+$adparams = Import-CSV $filepath -delimiter $delimiter 
 
 #Asks for permission to create the users (with error handling)
 Write-Host "Are you sure you want to create the following user(s): " `n
@@ -120,7 +144,9 @@ While($True){
             
             #Inputs the Organistation-Unit name (with error handling)
             While($True){
-            
+                
+                #Enter nested OU's like OuterLayer;InnerLayer;EvenDeeperInnerLayer...
+                Write-Host "`nPlease enter the target OU, seperate nested ones with ';' !" -foreground Yellow
                 $ouname = Read-Host "Please enter the OU-Name> " 
                 $verifyou = Read-Host "Please enter the OU-Name again> " 
                 if($ouname -eq $verifyou){break}
@@ -129,91 +155,94 @@ While($True){
             }
 
 
+            #Creates the new OU variables
+            $oulength = ($ouname.toCharArray() |Where-Object {$_ -eq ';'} | Measure-Object).count
+            $tempou = $ouname.split(";") 
+            $counter = 0
+
+            #Creates the ou-variables
+            for($i= $oulength; $i -ge 0; $i--){  
+                New-Variable -Name "ou$i" -Value $tempou[$counter++] -Force
+                
+            }
+
+            #Creates the ou-string
+            $oustring = ""
+            for($i= 0; $i -le $oulength; $i++){ 
+                $x = get-variable "ou$i"  -valueOnly 
+                $oustring = $oustring + "OU=" + $x + ", " #"ou$i, "
+            }
+            
             #Prepares the domain path 
             $tempdomain = $domain.split(".") 
             $oudomain = $tempdomain[0]
             $outld = $tempdomain[1]
-            
-            
+
+
             Write-Host "Creating AD-User(s)..." -foreground yellow `n `n 
 
         #Processes the recently created statements and creates the users
-        #try{
-            Foreach($user in $adparams ){
+  
+        Foreach($user in $adparams ){
 
 
-                #Initialises the variables
-                $name = $user.Name            
-                $givenname = $user.Vorname
-                $surname = $user.Nachname
-                $email = $user.Email
-                $password = $passwordinput | ConvertTo-SecureString -AsPlainText -Force
-                $displayname = $givenname + " " + $surname  #evtl csv 
-                $userprincipalname = $name + "@" + $domain
-                $OU = "OU=" + $ouname + ",DC=" + $oudomain + ",DC=" + $outld
-                          
+             #Initialises the variables
+             $name = $user.Name            
+             $givenname = $user.Vorname
+             $surname = $user.Nachname
+             $email = $user.Email
+             $password = $passwordinput | ConvertTo-SecureString -AsPlainText -Force
+             $displayname = $givenname + " " + $surname  #evtl csv 
+             $userprincipalname = $name + "@" + $domain
+             $OU = $oustring + " DC=" + $oudomain + "," + " DC=" + $outld   
+             
+
+
+             ###### IF ADDITIONAL PARAMETERS ARE NEEDED:
+             #     -ADD THE PARAMETER NAME TO THE CSV-FILE (FOR EXAMPLE "City")
+             #     -CREATE A NEW VARIABLE UPON THIS ^ (FOR EXAMPLE "$city = $user.city")
+             #     -SEARCH FOR THE CORRESPONDING COMMAND ON THE MS WEBSITE (FILE HEADER) AND
+             ###### ADD IT TO THE New-ADUser COMMAND (New-ADUSer ... -City $city)
+             
+             
+                   
                 
-                #Shows the neat loading animation (remove to speed up the process)
-                Write-Host "Creating User: "$name -nonewline
-                For($i=0; $i -le 3; $i++){Write-Host "." -nonewline;  Start-Sleep -s 0.5}
-                Write-Host " "
+             #Shows the neat loading animation (remove to speed up the process)
+             Write-Host "Creating User: "$name -nonewline
+             For($i=0; $i -le 3; $i++){Write-Host "." -nonewline;  Start-Sleep -s 0.5}
+             Write-Host " "
                 
-                #Creates the AD-Users by taking the recent variables and their corresponding parameters
-                New-ADUser -SamAccountName $name -Name $name -GivenName $givenname -Surname $surname -EmailAddress $email -DisplayName $displayname -UserPrincipalName $userprincipalname -Path $ou -AccountPassword $password -ChangePasswordAtLogon $False -PasswordNeverExpires $True -Enabled $True
-                }#}
+             #Creates the AD-Users by taking the recent variables and their corresponding parameters
+             $ErrorActionPreference = "silentlycontinue"
+             New-ADUser -SamAccountName $name -Name $name -GivenName $givenname -Surname $surname -EmailAddress $email -DisplayName $displayname -UserPrincipalName $userprincipalname -Path $ou -AccountPassword $password -ChangePasswordAtLogon $False -PasswordNeverExpires $True -Enabled $True -ErrorAction SilentlyContinue
+             if($Error){Write-Host "Error! "$Error[0].ToString() `n -foreground red}
 
-        #catch [System.Exception] {
-        
-        #if()
-        
-        #}
-
-         #catch [System.Exception] {
-        
-        #if() # TODO Catchmessages compare + silent continue
-        
-        #}
+        }
 
 
+         #Writes Success message
+         if(!$Error){        
+            Write-Host `n"****************************"
+            Write-Host    "User(s) successfully created" -foreground green
+            Write-Host    "****************************"
+            Read-Host "`nPress enter to exit> "
+            break 
+         }
 
-        
-         #catch [ADIdentityAlreadyExistsException] {
-          #  Write-Host "Error: User already exists!" -foreground red 
-         #   }
+         #Writes error message
+         else{
+         Write-Host "************************" 
+         Write-Host "Creating user(s) failed!" -foreground red
+         Write-Host "************************"
+         Read-Host "`nPress enter to exit> "
+         break
+         } 
 
-        #catch [ParameterBindingValidationException] {
-           # Write-Host "Error: There are no users in the csv file!" -foreground red
-          #  Write-Host "Did you use the correct delimiter?" -foreground red
-         #   break
-        #}
-
-        
-        #catch [ADPasswordComplexityException] {
-          #  Write-Host "Error: The chosen default password is too weak!" -foreground red
-         #   break 
-        #}
-          
-        #catch [ADException] {
-          #  If($Error.contains()){Write-Host "User already in another Organistation-Unit" -foreground red}
-         #   break
-        #}
-
-        
-
-        #catch {
-          # Write-Host "An error occured..." -foreground red
-         #  Write-Host($error[0].ToString() ) -foreground red 
-        #   break
-        #}
-
-                
-         Write-Host `n"****************************"
-         Write-Host    "User(s) successfully created" -foreground green
-         Write-Host    "****************************"
-            break} 
+}
 
     ElseIf($prompt -eq $cancel) {
                 Write-Host `n "Goodbye! Thanks for using my script!" -foreground yellow
+                Read-Host "`nPress enter to exit> "
                 break}
 
     Else{
