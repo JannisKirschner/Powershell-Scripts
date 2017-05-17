@@ -1,4 +1,4 @@
-#WinInf is a tool to get various system informations
+#WinInf is a tool to get various system informations 
 #Author: Jannis Kirschner
 #Copyright: Jannis Kirschner, 2017 
 #Licence: GPL 3
@@ -15,7 +15,7 @@ Write-Host "Computername: " $env:UserName
 Write-Host "Manufacturer & Model Information"
 gwmi win32_computersystem
 
-Write-Host "BIOS Information"
+Write-Host "BIOS Information"   
 Write-Host "----------------"`n
 gwmi win32_bios
 
