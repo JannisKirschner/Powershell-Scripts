@@ -9,7 +9,7 @@ write-host "Welcome to AD-Mailchange!"
 write-host "Tool by Jannis Kirschner"
 
 #Gets initial values
-$ou = "OU=testusers,DC=sempex,DC=ch"  # <----------------- Edit Here
+$ou = "OU=testusers,DC=domainname,DC=ch"  # <----------------- Edit Here
 write-host "Please change the ou in sourcecode"
 write-host ""
 $oldtld = read-host "Enter old TLD for Example(.ch)>"
